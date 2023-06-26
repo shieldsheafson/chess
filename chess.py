@@ -1,8 +1,45 @@
-import tkinter
+import tkinter as tk
+from tkinter import ttk
 
 class game: 
   
   def __init__(self, initialPosition):
+
+    self.root = tk.Tk()
+    squareSize = 75
+    squares = []
+    isWhite = 1
+    alphabet = 'abcdefgh'
+
+
+    # creates board
+    for y in range(1,9):
+
+      # adds numbers down the side
+      sideFrames = tk.Frame(self.root)
+      sideFrames.grid(row=y, column=0)
+      ttk.Label(sideFrames, text=str(abs(y-9))).grid()
+      
+      for x in range(1,9):
+        
+        # adds letters to the bottom
+        if y == 1:
+          bottomFrames = tk.Frame(self.root)
+          bottomFrames.grid(row=9, column=x)
+          ttk.Label(bottomFrames, text=alphabet[x-1]).grid()
+
+        # creates the checker pattern
+        if isWhite:
+          squares.append(tk.Frame(self.root, bg="white", width=squareSize, height=squareSize))
+          squares[len(squares)-1].grid(row=y, column=x)
+        else:
+          squares.append(tk.Frame(self.root, bg="black", width=squareSize, height=squareSize))
+          squares[len(squares)-1].grid(row=y, column=x)
+
+        isWhite = abs(isWhite-1)
+
+      isWhite = abs(isWhite-1)
+
     pieces = {'r':rook, 'n':knight, 'b':bishop,
               'q':queen, 'k':king, 'p':pawn}
 
@@ -131,4 +168,4 @@ class pawn(game):
     
 position = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
 g = game(position)
-print(g)
+g.root.mainloop()
